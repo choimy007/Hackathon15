@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic; //Allows us to use dictionaries
 
 //Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
 public class Player : MovingObject
@@ -14,7 +15,7 @@ public class Player : MovingObject
     private int hp;                             //Used to store player health points total during level.
     private bool skipHealth;                    //Regenerate health only every other turn
 
-    public Dictionary<string, int> inventory; //Store the number of each drop we have.
+    public Dictionary<string, int> inventory;   //Store the number of each drop we have.
     
     
     //Start overrides the Start function of MovingObject
