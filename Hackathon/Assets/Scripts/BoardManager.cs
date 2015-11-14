@@ -234,6 +234,9 @@ public class BoardManager : MonoBehaviour
     //SetupScene initializes our level and calls the previous functions to lay out the game board
     public void SetupScene (int level)
     {
+        GameObject board = GameObject.Find("Board");
+        Destroy(board);
+
         //Creates the outer walls and floor.
         if (GameManager.level == 0)
         {
@@ -254,7 +257,7 @@ public class BoardManager : MonoBehaviour
         //LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
 
         //Determine number of enemies based on current level number, based on a logarithmic progression
-        int enemyCount = (int)Mathf.Log(level, 2f);
+        //int enemyCount = (int)Mathf.Log(level, 2f);
         
         //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
         //LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);

@@ -52,18 +52,20 @@ public class GameManager : MonoBehaviour
         InitGame();
     }
     
-    //This is called each time a scene is loaded.
-    void OnLevelWasLoaded(int index)
-    {
-        //Add one to our level number.
-        //level++;
-        //Call InitGame to initialize our level.
-        InitGame();
-    }
+    ////This is called each time a scene is loaded.
+    //void OnLevelWasLoaded(int index)
+    //{
+    //    Debug.Log("level_load");
+    //    //Add one to our level number.
+    //    //level++;
+    //    //Call InitGame to initialize our level.
+    //    InitGame();
+    //}
     
     //Initializes the game for each level.
     void InitGame()
     {
+        //Debug.Log("game init");
         //While doingSetup is true the player can't move, prevent player from moving while title card is up.
         doingSetup = true;
         
@@ -86,7 +88,7 @@ public class GameManager : MonoBehaviour
         
         //Clear any Enemy objects in our List to prepare for next level.
         enemies.Clear();
-        
+
         //Call the SetupScene function of the BoardManager script, pass it current level number.
         boardScript.SetupScene(level);
 
