@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public float levelStartDelay = 2f;                      //Time to wait before starting level, in seconds.
     public float turnDelay = 0.1f;                          //Delay between each Player turn.
     public int playerHealthPoints = 100;                    //Starting value for Player health points.
+    public Dictionary<string, int> playerInventory = new Dictionary<string, int>();   //Starting player inventory.
     public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
     [HideInInspector] public bool playersTurn = true;       //Boolean to check if it's players turn, hidden in inspector but public.
     
@@ -66,20 +67,20 @@ public class GameManager : MonoBehaviour
         //While doingSetup is true the player can't move, prevent player from moving while title card is up.
         doingSetup = true;
         
-        //Get a reference to our image LevelImage by finding it by name.
-        levelImage = GameObject.Find("LevelImage");
+        // //Get a reference to our image LevelImage by finding it by name.
+        // levelImage = GameObject.Find("LevelImage");
         
-        //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
-        levelText = GameObject.Find("LevelText").GetComponent<Text>();
+        // //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
+        // levelText = GameObject.Find("LevelText").GetComponent<Text>();
         
-        //Set the text of levelText to the string "Day" and append the current level number.
-        levelText.text = "Day " + level;
+        // //Set the text of levelText to the string "Day" and append the current level number.
+        // levelText.text = "Day " + level;
         
-        //Set levelImage to active blocking player's view of the game board during setup.
-        levelImage.SetActive(true);
+        // //Set levelImage to active blocking player's view of the game board during setup.
+        // levelImage.SetActive(true);
         
-        //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
-        Invoke("HideLevelImage", levelStartDelay);
+        // //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
+        // Invoke("HideLevelImage", levelStartDelay);
         
         //Clear any Enemy objects in our List to prepare for next level.
         enemies.Clear();
@@ -124,8 +125,8 @@ public class GameManager : MonoBehaviour
     //GameOver is called when the player reaches 0 food points
     public void GameOver()
     {
-        //Set levelText to display number of levels passed and game over message
-        levelText.text = "After " + level + " days, you starved.";
+        // //Set levelText to display number of levels passed and game over message
+        // levelText.text = "After " + level + " days, you starved.";
         
         //Enable black background image gameObject.
         levelImage.SetActive(true);

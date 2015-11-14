@@ -13,6 +13,8 @@ public class Player : MovingObject
     private Animator animator;                  //Used to store a reference to the Player's animator component.
     private int hp;                             //Used to store player health points total during level.
     private bool skipHealth;                    //Regenerate health only every other turn
+
+    public Dictionary<string, int> inventory; //Store the number of each drop we have.
     
     
     //Start overrides the Start function of MovingObject
@@ -23,6 +25,8 @@ public class Player : MovingObject
         
         //Get the current health point total stored in GameManager.instance between levels.
         hp = GameManager.instance.playerHealthPoints;
+
+        //Get the current inventory from the dictionary stared in GameManager.instance between scenes.
         
         //Call the Start function of the MovingObject base class.
         base.Start ();
