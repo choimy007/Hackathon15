@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     
     
     private Text levelText;                                 //Text to display current level number.
-    private GameObject levelImage;                          //Image to block out level as levels are being set up, background for levelText.
+    public GameObject CookCanvas;                         
     private BoardManager boardScript;                       //Store a reference to our BoardManager which will set up the level.
     public static int level = 0;                                   //Current level number, expressed in game as "Day 1".
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
@@ -68,24 +68,26 @@ public class GameManager : MonoBehaviour
         //Debug.Log("game init");
         //While doingSetup is true the player can't move, prevent player from moving while title card is up.
         doingSetup = true;
-        
+
+        CookCanvas = GameObject.Find("CookCanvas");
+        CookCanvas.SetActive(false);
         // //Get a reference to our image LevelImage by finding it by name.
         // levelImage = GameObject.Find("LevelImage");
-        
+
         // //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
         // levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        
+
         // //Set the text of levelText to the string "Day" and append the current level number.
         // levelText.text = "Day " + level;
-        
+
         // //Set levelImage to active blocking player's view of the game board during setup.
         // levelImage.SetActive(true);
-        
+
         // //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
         // Invoke("HideLevelImage", levelStartDelay);
 
 
-        
+
         //Clear any Enemy objects in our List to prepare for next level.
         enemies.Clear();
 
@@ -101,7 +103,7 @@ public class GameManager : MonoBehaviour
     void HideLevelImage()
     {
         //Disable the levelImage gameObject.
-        levelImage.SetActive(false);
+        //levelImage.SetActive(false);
         
         //Set doingSetup to false allowing player to move again.
         doingSetup = false;
@@ -135,7 +137,7 @@ public class GameManager : MonoBehaviour
         // levelText.text = "After " + level + " days, you starved.";
         
         //Enable black background image gameObject.
-        levelImage.SetActive(true);
+        //levelImage.SetActive(true);
         
         //Disable this GameManager.
         enabled = false;

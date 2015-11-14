@@ -15,6 +15,7 @@ public class Player : MovingObject
     private int hp;                             //Used to store player health points total during level.
     private bool skipHealth;                    //Regenerate health only every other turn
 
+
     public Dictionary<string, int> inventory;   //Store the number of each drop we have.
     
     
@@ -194,6 +195,8 @@ public class Player : MovingObject
         else if(other.tag == "Cook")
         {
             // Pop up the maker menu!
+            GameObject CookCanvas = GameManager.instance.CookCanvas;
+            CookCanvas.SetActive(true);
         }
 
         //Check if the tag of the trigger collided with is a drop.
