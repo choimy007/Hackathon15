@@ -81,12 +81,16 @@ public class GameManager : MonoBehaviour
         
         // //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
         // Invoke("HideLevelImage", levelStartDelay);
+
+
         
         //Clear any Enemy objects in our List to prepare for next level.
         enemies.Clear();
         
         //Call the SetupScene function of the BoardManager script, pass it current level number.
         boardScript.SetupScene(level);
+
+        doingSetup = false;
         
     }
     
