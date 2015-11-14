@@ -196,6 +196,7 @@ public class Player : MovingObject
         {
             // Pop up the maker menu!
             GameObject CookCanvas = GameManager.instance.CookCanvas;
+            GameObject Cookbutton = GameManager.instance.CookButton;
             CookCanvas.SetActive(true);
         }
 

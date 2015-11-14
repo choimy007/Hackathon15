@@ -5,4 +5,5 @@ public class CookUI : MonoBehaviour {
 
     GameObject CakeButton;
     
+    CakeButton.onClick()
 }

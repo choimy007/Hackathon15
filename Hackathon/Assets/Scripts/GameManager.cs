@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour
     
     
     private Text levelText;                                 //Text to display current level number.
-    public GameObject CookCanvas;                         
+    public GameObject CookCanvas;
+    public GameObject CookButton;
     private BoardManager boardScript;                       //Store a reference to our BoardManager which will set up the level.
     public static int level = 0;                                   //Current level number, expressed in game as "Day 1".
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
         doingSetup = true;
 
         CookCanvas = GameObject.Find("CookCanvas");
+        CookButton = GameObject.Find("CookButton");
         CookCanvas.SetActive(false);
         // //Get a reference to our image LevelImage by finding it by name.
         // levelImage = GameObject.Find("LevelImage");
