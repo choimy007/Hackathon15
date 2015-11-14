@@ -70,9 +70,9 @@ public class GameManager : MonoBehaviour
         //While doingSetup is true the player can't move, prevent player from moving while title card is up.
         doingSetup = true;
 
-        CookCanvas = GameObject.Find("CookCanvas");
-        CookButton = GameObject.Find("CookButton");
-        CookCanvas.SetActive(false);
+        //CookCanvas = GameObject.Find("CookCanvas");
+        //CookButton = GameObject.Find("CookButton");
+        //CookCanvas.SetActive(false);
         // //Get a reference to our image LevelImage by finding it by name.
         // levelImage = GameObject.Find("LevelImage");
 

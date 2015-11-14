@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CookUI : MonoBehaviour {
 
+    public GameObject cake;
+
     public void Win()
     {
         int sugar = GameManager.instance.playerInventory["Sugar"];
@@ -10,10 +12,9 @@ public class CookUI : MonoBehaviour {
         Debug.Log("CookUI");
         if (sugar >= 1 && strawberry >= 1)
         {
-            GameObject cake = GameObject.Find("RawImage");
             cake.SetActive(true);
         }
         
-        // do nothing
+         //do nothing
     }
 }

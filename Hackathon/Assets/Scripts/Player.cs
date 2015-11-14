@@ -17,8 +17,9 @@ public class Player : MovingObject
 
 
     public Dictionary<string, int> inventory;   //Store the number of each drop we have.
-    
-    
+
+    public GameObject button;
+
     //Start overrides the Start function of MovingObject
     protected override void Start ()
     {
@@ -195,9 +196,9 @@ public class Player : MovingObject
         else if(other.tag == "Cook")
         {
             // Pop up the maker menu!
-            GameObject CookCanvas = GameManager.instance.CookCanvas;
-            GameObject Cookbutton = GameManager.instance.CookButton;
-            CookCanvas.SetActive(true);
+            //GameObject CookCanvas = GameManager.instance.CookCanvas;
+            //GameObject Cookbutton = GameManager.instance.CookButton;
+            
         }
 
         //Check if the tag of the trigger collided with is a drop.
