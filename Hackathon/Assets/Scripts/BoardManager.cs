@@ -72,10 +72,10 @@ public class BoardManager : MonoBehaviour
 
     public static char[,] inside = new char[,]
     {
-        { X,X,X,X,W,X,X,X },
-        { O,O,C,O,O,O,O,O },
+        { O,O,O,E,O,O,O,O },
         { O,O,O,O,O,O,O,O },
-        { O,O,O,E,O,O,O,O }
+        { O,O,C,O,O,O,O,O },
+        { X,X,X,X,W,X,X,X }
     };
 
     //Clears our list gridPositions and prepares it to generate a new board.
@@ -179,7 +179,7 @@ public class BoardManager : MonoBehaviour
                     toInstantiate = arrayToBoard(field, x, y, level);
 
                 else
-                    toInstantiate = arrayToBoard(inside, x, y, level);
+                    toInstantiate = arrayToBoard(inside, y, x, level);
 
                 //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
                 GameObject instance =
