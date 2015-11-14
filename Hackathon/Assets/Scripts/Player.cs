@@ -152,8 +152,20 @@ public class Player : MovingObject
     //OnTriggerEnter2D is sent when another object enters a trigger collider attached to this object (2D physics only).
     private void OnTriggerEnter2D (Collider2D other)
     {
+        if (other.tag == "Untagged")
+            return;
+
         //Check if the tag of the trigger collided with is the house.
-        if(other.tag == "House")
+        else if(other.tag == "House")
+        {
+            // //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
+            // Invoke ("Restart", restartLevelDelay);
+            
+            // //Disable the player object since level is over.
+            // enabled = false;
+        }
+
+        else if(other.tag == "Exit")
         {
             // //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
             // Invoke ("Restart", restartLevelDelay);
@@ -163,14 +175,14 @@ public class Player : MovingObject
         }
         
         //Check if the tag of the trigger collided with is a drop.
-        else if(other.tag == "Drop")
-        {
-            // //Add pointsPerFood to the players current food total.
-            // food += pointsPerFood;
+        // else if(other.tag == "Drop")
+        // {
+        //     // //Add pointsPerFood to the players current food total.
+        //     // food += pointsPerFood;
             
-            //Disable the food object the player collided with.
-            other.gameObject.SetActive (false);
-        }
+        //     //Disable the food object the player collided with.
+        //     other.gameObject.SetActive (false);
+        // }
 
         //Else, add the drop item to the inventory.
         else if (inventory.ContainsKey(other.tag))
