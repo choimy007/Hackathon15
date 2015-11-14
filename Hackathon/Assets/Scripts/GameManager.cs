@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private Text levelText;                                 //Text to display current level number.
     private GameObject levelImage;                          //Image to block out level as levels are being set up, background for levelText.
     private BoardManager boardScript;                       //Store a reference to our BoardManager which will set up the level.
-    private int level = 1;                                  //Current level number, expressed in game as "Day 1".
+    public static int level = 0;                                   //Current level number, expressed in game as "Day 1".
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
     private bool enemiesMoving;                             //Boolean to check if enemies are moving.
     private bool doingSetup = true;                         //Boolean to check if we're setting up board, prevent Player from moving during setup.
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     void OnLevelWasLoaded(int index)
     {
         //Add one to our level number.
-        level++;
+        //level++;
         //Call InitGame to initialize our level.
         InitGame();
     }

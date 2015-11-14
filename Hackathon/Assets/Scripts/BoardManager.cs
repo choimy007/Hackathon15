@@ -22,17 +22,24 @@ public class BoardManager : MonoBehaviour
     }
     
     
-    public int columns = 15;                                         //Number of columns in our game board.
-    public int rows = 15;                                            //Number of rows in our game board.
-    public Count wallCount = new Count (5, 9);                      //Lower and upper limit for our random number of walls per level.
-    public Count foodCount = new Count (1, 5);                      //Lower and upper limit for our random number of food items per level.
-    //public GameObject exit;                                         //Prefab to spawn for exit.
+    public int outsideC = 15;                                         //Number of columns in our game board.
+    public int outsideR = 15;                                            //Number of rows in our game board.
+    // Inside variables
+    public int insideC = 8;
+    public int insideR = 4;
+    //public Count wallCount = new Count (5, 9);                      //Lower and upper limit for our random number of walls per level.
+    //public Count foodCount = new Count (1, 5);                      //Lower and upper limit for our random number of food items per level.
+    public GameObject exit;                                         //Prefab to spawn for exit.
     public GameObject[] floorTiles;                                 //Array of floor prefabs.
     //public GameObject[] wallTiles;                                  //Array of wall prefabs.
     public GameObject[] foodTiles;                                  //Array of food prefabs.
     public GameObject[] enemyTiles;                                 //Array of enemy prefabs.
     public GameObject[] outerWallTiles;                             //Array of outer tile prefabs.
     public GameObject[] houseTiles;                                 //Array of house prefabs.
+    public GameObject[] cookTiles;
+    public GameObject window;
+    public GameObject insideF;
+    public GameObject insideW;
     
     private Transform boardHolder;                                  //A variable to store a reference to the transform of our Board object.
     private List <Vector3> gridPositions = new List <Vector3> ();   //A list of possible locations to place tiles.
@@ -40,6 +47,9 @@ public class BoardManager : MonoBehaviour
     private static char X = 'X';                                    //Walls
     private static char O = 'O';                                    //Floors
     private static char H = 'H';                                    //House
+    private static char C = 'C';                                    //Cooking Counter
+    private static char E = 'E';                                    //Exit
+    private static char W = 'W';                                    //Window
     
     public static char[,] field = new char[,]
     {
@@ -59,9 +69,17 @@ public class BoardManager : MonoBehaviour
             {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //13
             {X, X, X, X, X, X, X, X, X, X, X, X, X, X, X}   //14
     };
-    
+
+    public static char[,] inside = new char[,]
+    {
+        { X,X,X,X,W,X,X,X },
+        { O,O,C,O,O,O,O,O },
+        { O,O,O,O,O,O,O,O },
+        { O,O,O,E,O,O,O,O }
+    };
+
     //Clears our list gridPositions and prepares it to generate a new board.
-    void InitialiseList ()
+    void InitialiseList (int columns, int rows)
     {
         //Clear our list gridPositions.
         gridPositions.Clear ();
@@ -80,31 +98,66 @@ public class BoardManager : MonoBehaviour
     
    
     // Takes in the 2D array and puts floors and walls accordingly
-    GameObject arrayToBoard(char[,] mazeArray, int x, int y)
+    GameObject arrayToBoard(char[,] mazeArray, int x, int y, int level)
     {
-        // x is the number of columns = width
-        // z is the number of rows = height
-        char tileStr = mazeArray[x, y];
+        if (level == 1)
+        {
+            // x is the number of columns = width
+            // z is the number of rows = height
+            char tileStr = mazeArray[x, y];
 
-        //// If there is an X, return a Wall
-        //if (tileStr == 'X')
-        //    return wallTiles[Random.Range(0, wallTiles.Length)];
+            //// If there is an X, return a Wall
+            //if (tileStr == 'X')
+            //    return wallTiles[Random.Range(0, wallTiles.Length)];
 
-        // If there is an O, return a Floor
-        if (tileStr == 'O')
-            return floorTiles[Random.Range(0, floorTiles.Length)];
+            // If there is an O, return a Floor
+            if (tileStr == 'O')
+                return floorTiles[Random.Range(0, floorTiles.Length)];
 
-        // If there is an H, return the House
-        else if (tileStr == 'H')
-            return houseTiles[Random.Range(0, houseTiles.Length)];
-        
-        // Otherwise return a floor tile
+            // If there is an H, return the House
+            else if (tileStr == 'H')
+                return houseTiles[Random.Range(0, houseTiles.Length)];
+
+            // Otherwise return a floor tile
+            else
+                return floorTiles[Random.Range(0, floorTiles.Length)];
+        }
+
+        else if (level == 0)
+        {
+            // x is the number of columns = width
+            // z is the number of rows = height
+            char tileStr = mazeArray[x, y];
+
+            // If there is an X, return a Wall
+            if (tileStr == 'X')
+                return insideW;
+
+            // If there is an O, return a Floor
+            if (tileStr == 'O')
+                return insideF;
+
+            // If there is an H, return the House
+            else if (tileStr == 'C')
+                return cookTiles[Random.Range(0, houseTiles.Length)];
+
+            else if (tileStr == 'W')
+                return window;
+
+            else if (tileStr == 'E')
+                return exit;
+
+            // Otherwise return a floor tile
+            else
+                return insideF;
+        }
         else
             return floorTiles[Random.Range(0, floorTiles.Length)];
     }
 
+
     //Sets up the outer walls and floor (background) of the game board.
-    void BoardSetup ()
+    void BoardSetup (int columns, int rows, int level)
     {
         //Instantiate Board and set boardHolder to its transform.
         boardHolder = new GameObject ("Board").transform;
@@ -124,7 +177,7 @@ public class BoardManager : MonoBehaviour
                 
                 else
                 {
-                    toInstantiate = arrayToBoard(field, x, y);
+                    toInstantiate = arrayToBoard(field, x, y, level);
                 }
 
                 //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
@@ -180,17 +233,25 @@ public class BoardManager : MonoBehaviour
     public void SetupScene (int level)
     {
         //Creates the outer walls and floor.
-        BoardSetup ();
-        
-        //Reset our list of gridpositions.
-        InitialiseList ();
-        
+        if (GameManager.level == 0)
+        {
+            BoardSetup(insideC, insideR, level);
+            InitialiseList(insideC, insideR);
+        }
+
+        else if (GameManager.level == 1)
+        {
+            BoardSetup(outsideC, outsideR, level);
+            InitialiseList(outsideC, outsideR);
+        }
+      
+
         //Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
         //LayoutObjectAtRandom (wallTiles, wallCount.minimum, wallCount.maximum);
-        
+
         //Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
         //LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
-        
+
         //Determine number of enemies based on current level number, based on a logarithmic progression
         int enemyCount = (int)Mathf.Log(level, 2f);
         
