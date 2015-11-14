@@ -175,10 +175,11 @@ public class BoardManager : MonoBehaviour
                 if(x == -1 || x == columns || y == -1 || y == rows)
                     toInstantiate = outerWallTiles [Random.Range (0, outerWallTiles.Length)];
                 
-                else
-                {
+                else if (level == 1)
                     toInstantiate = arrayToBoard(field, x, y, level);
-                }
+
+                else
+                    toInstantiate = arrayToBoard(inside, x, y, level);
 
                 //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
                 GameObject instance =
