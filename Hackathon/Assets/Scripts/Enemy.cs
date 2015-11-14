@@ -4,7 +4,8 @@ using System.Collections;
 //Enemy inherits from MovingObject, our base class for objects that can move, Player also inherits from this.
 public class Enemy : MovingObject
 {
-    public int playerDamage;                            //The amount of food points to subtract from the player when attacking.
+    public int playerDamage;                            //The amount of health points to subtract from the player when attacking.
+    public int hp = 5;                                  //Used to store enemy health points.
     
     
     private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
@@ -81,11 +82,36 @@ public class Enemy : MovingObject
         //Declare hitPlayer and set it to equal the encountered component.
         Player hitPlayer = component as Player;
         
-        //Call the LoseFood function of hitPlayer passing it playerDamage, the amount of foodpoints to be subtracted.
-        hitPlayer.LoseFood (playerDamage);
+        //Call the LoseHealth function of hitPlayer passing it playerDamage, the amount of health points to be subtracted.
+        hitPlayer.LoseHealth (playerDamage);
         
         //Set the attack trigger of animator to trigger Enemy attack animation.
-        animator.SetTrigger ("enemyAttack");
+        //animator.SetTrigger ("enemyAttack");
 
+    }
+
+
+    //DamageEnemy is called when the player attacks an enemy.
+    //It takes a parameter loss which specifies how many points to lose.
+    public void DamageEnemy (int enemyDamage)
+    {
+        //Set the trigger for the enemy animator to transition to the enemyHit animation.
+        //animator.SetTrigger ("enemyHit");
+        
+        //Subtract lost health points from the enemy's total.
+        hp -= enemyDamage;
+        
+        //Check if health point total is less than or equal to zero.
+        if (hp <= 0) 
+        {
+            gameObject.SetActive (false);
+        }
+    }
+
+
+    //CheckIfEnemyDead checks if the enemyis out of health points and if so, removes the enemy.
+    private void CheckIfEnemyDead ()
+    {
+        
     }
 }
