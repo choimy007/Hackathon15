@@ -82,10 +82,10 @@ public class Enemy : MovingObject
     protected override void OnCantMove <T> (T component)
     {
         //Declare hitPlayer and set it to equal the encountered component.
-        Player hitPlayer = component as Player;
+        //Player hitPlayer = component as Player;
         
         //Call the LoseHealth function of hitPlayer passing it playerDamage, the amount of health points to be subtracted.
-        hitPlayer.LoseHealth (playerDamage);
+        //hitPlayer.LoseHealth (playerDamage);
         
         //Set the attack trigger of animator to trigger Enemy attack animation.
         //animator.SetTrigger ("enemyAttack");

@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
         //Loop through List of Enemy objects.
         for (int i = 0; i < enemies.Count; i++)
         {
-            if (enemies[i].hp > 0)
+            if (enemies[i].hp > 0 && enemies[i] != null)
             {
                 //Call the MoveEnemy function of Enemy at index i in the enemies List.
                 enemies[i].MoveEnemy ();

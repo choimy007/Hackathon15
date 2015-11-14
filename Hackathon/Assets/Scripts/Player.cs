@@ -217,6 +217,8 @@ public class Player : MovingObject
 
             //Disable the drop item the player collided with.
             other.gameObject.SetActive (false);
+
+            Debug.Log("Inventory: " + other.tag + inventory[other.tag]);
         }
 
         else if (!inventory.ContainsKey(other.tag))
@@ -225,6 +227,8 @@ public class Player : MovingObject
 
             //Disable the drop item the player collided with.
             other.gameObject.SetActive (false);
+
+            Debug.Log("Inventory: " + other.tag + inventory[other.tag]);
         }
         
         // //Check if the tag of the trigger collided with is Soda.
