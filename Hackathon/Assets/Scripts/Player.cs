@@ -180,6 +180,11 @@ public class Player : MovingObject
             // enabled = false;
         }
         
+        else if(other.tag == "Cook")
+        {
+            // Pop up the maker menu!
+        }
+
         //Check if the tag of the trigger collided with is a drop.
         // else if(other.tag == "Drop")
         // {
