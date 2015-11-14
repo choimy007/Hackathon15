@@ -62,11 +62,35 @@ public class Player : MovingObject
         vertical = (int) (Input.GetAxisRaw ("Vertical"));
         
         //Check if moving horizontally, if so set vertical to zero.
-        if(horizontal != 0)
+        //if(horizontal != 0)
+        //{
+        //    vertical = 0;
+        //}
+        
+        if (horizontal < 0)
         {
             vertical = 0;
+            animator.SetTrigger("moveLeft");
         }
-        
+
+        else if (horizontal > 0)
+        {
+            vertical = 0;
+            animator.SetTrigger("moveRight");
+        }
+
+        else if (vertical < 0)
+        {
+            horizontal = 0;
+            animator.SetTrigger("moveFront");
+        }
+
+        else if (vertical > 0)
+        {
+            horizontal = 0;
+            animator.SetTrigger("moveBack");
+        }
+
         //Check if we have a non-zero value for horizontal or vertical
         if(horizontal != 0 || vertical != 0)
         {
@@ -104,7 +128,7 @@ public class Player : MovingObject
         
         //Since the player has moved and lost food points, check if the game has ended.
         CheckIfGameOver ();
-        
+
         //Set the playersTurn boolean of GameManager to false now that players turn is over.
         GameManager.instance.playersTurn = false;
     }
