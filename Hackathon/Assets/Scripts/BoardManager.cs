@@ -32,10 +32,33 @@ public class BoardManager : MonoBehaviour
     public GameObject[] foodTiles;                                  //Array of food prefabs.
     public GameObject[] enemyTiles;                                 //Array of enemy prefabs.
     public GameObject[] outerWallTiles;                             //Array of outer tile prefabs.
+    public GameObject[] houseTiles;                                 //Array of house prefabs.
     
     private Transform boardHolder;                                  //A variable to store a reference to the transform of our Board object.
     private List <Vector3> gridPositions = new List <Vector3> ();   //A list of possible locations to place tiles.
     
+    private static char X = 'X';                                    //Walls
+    private static char O = 'O';                                    //Floors
+    private static char H = 'H';                                    //House
+    
+    public static char[,] field = new char[,]
+    {
+            {X, X, X, X, X, X, X, X, X, X, X, X, X, X, X},  //0
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //1
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //2
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //3
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //4
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //5
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //6
+            {X, O, O, O, O, O, O, H, O, O, O, O, O, O, X},  //7
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //8
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //9
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //10
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //11
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //12
+            {X, O, O, O, O, O, O, O, O, O, O, O, O, O, X},  //13
+            {X, X, X, X, X, X, X, X, X, X, X, X, X, X, X}   //14
+    };
     
     //Clears our list gridPositions and prepares it to generate a new board.
     void InitialiseList ()
@@ -55,7 +78,30 @@ public class BoardManager : MonoBehaviour
         }
     }
     
-    
+   
+    // Takes in the 2D array and puts floors and walls accordingly
+    GameObject arrayToBoard(char[,] mazeArray, int x, int y)
+    {
+        // x is the number of columns = width
+        // z is the number of rows = height
+        char tileStr = mazeArray[x, y];
+
+        // If there is an X, return a Wall
+        if (tileStr == 'X')
+            return wallTiles[Random.Range(0, wallTiles.Length)];
+
+        // If there is an O, return a Floor
+        else if (tileStr == 'O')
+            return floorTiles[Random.Range(0, floorTiles.Length)];
+
+        // If there is an H, return the House
+        else if (tileStr == 'H')
+            return houseTiles[Random.Range(0, houseTiles.Length)];
+        
+        // Otherwise return a floor tile
+        else
+            return floorTiles[Random.Range(0, floorTiles.Length)];
+    }
     //Sets up the outer walls and floor (background) of the game board.
     void BoardSetup ()
     {
@@ -69,7 +115,7 @@ public class BoardManager : MonoBehaviour
             for(int y = -1; y < rows + 1; y++)
             {
                 //Choose a random tile from our array of floor tile prefabs and prepare to instantiate it.
-                GameObject toInstantiate = floorTiles[Random.Range (0,floorTiles.Length)];
+                GameObject toInstantiate = arrayToBoard(field, x, y);
                 
                 //Check if we current position is at board edge, if so choose a random outer wall prefab from our array of outer wall tiles.
                 if(x == -1 || x == columns || y == -1 || y == rows)
