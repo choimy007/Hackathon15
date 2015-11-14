@@ -28,6 +28,7 @@ public class Player : MovingObject
         hp = GameManager.instance.playerHealthPoints;
 
         //Get the current inventory from the dictionary stared in GameManager.instance between scenes.
+        inventory = GameManager.instance.playerInventory;
         
         //Call the Start function of the MovingObject base class.
         base.Start ();
@@ -39,6 +40,9 @@ public class Player : MovingObject
     {
         //When Player object is disabled, store the current local health total in the GameManager so it can be re-loaded in next level.
         GameManager.instance.playerHealthPoints = hp;
+
+        //Store the current inventory in the GameManager to be reloaded later
+        GameManager.instance.playerInventory = inventory;
     }
     
     
@@ -141,6 +145,23 @@ public class Player : MovingObject
             // food += pointsPerFood;
             
             //Disable the food object the player collided with.
+            other.gameObject.SetActive (false);
+        }
+
+        //Else, add the drop item to the inventory.
+        else if (inventory.ContainsKey(other.tag))
+        {
+            inventory[other.tag] += 1;
+
+            //Disable the drop item the player collided with.
+            other.gameObject.SetActive (false);
+        }
+
+        else if (!inventory.ContainsKey(other.tag))
+        {
+            inventory[other.tag] = 1;
+
+            //Disable the drop item the player collided with.
             other.gameObject.SetActive (false);
         }
         
