@@ -43,7 +43,7 @@ public class BoardManager : MonoBehaviour
     //public GameObject player;
     
     private Transform boardHolder;                                  //A variable to store a reference to the transform of our Board object.
-    private List <Vector3> gridPositions = new List <Vector3> ();   //A list of possible locations to place tiles.
+    private List <Vector3> objectPositions;   //A list of possible locations to place tiles.
     
     private static char X = 'X';                                    //Walls
     private static char O = 'O';                                    //Floors
@@ -80,22 +80,22 @@ public class BoardManager : MonoBehaviour
     };
 
     //Clears our list gridPositions and prepares it to generate a new board.
-    void InitialiseList (int columns, int rows)
-    {
-        //Clear our list gridPositions.
-        gridPositions.Clear ();
+    // void InitialiseList (int columns, int rows)
+    // {
+    //     //Clear our list gridPositions.
+    //     gridPositions.Clear ();
         
-        //Loop through x axis (columns).
-        for(int x = 1; x < columns-1; x++)
-        {
-            //Within each column, loop through y axis (rows).
-            for(int y = 1; y < rows-1; y++)
-            {
-                //At each index add a new Vector3 to our list with the x and y coordinates of that position.
-                gridPositions.Add (new Vector3(x, y, 0f));
-            }
-        }
-    }
+    //     //Loop through x axis (columns).
+    //     for(int x = 1; x < columns-1; x++)
+    //     {
+    //         //Within each column, loop through y axis (rows).
+    //         for(int y = 1; y < rows-1; y++)
+    //         {
+    //             //At each index add a new Vector3 to our list with the x and y coordinates of that position.
+    //             gridPositions.Add (new Vector3(x, y, 0f));
+    //         }
+    //     }
+    // }
     
    
     // Takes in the 2D array and puts floors and walls accordingly
@@ -196,14 +196,28 @@ public class BoardManager : MonoBehaviour
     //RandomPosition returns a random position from our list gridPositions.
     Vector3 RandomPosition ()
     {
-        //Declare an integer randomIndex, set it's value to a random number between 0 and the count of items in our List gridPositions.
-        int randomIndex = Random.Range (0, gridPositions.Count);
+        int randomIndexX;
+        int randomIndexY;
+
+        if (GameManager.level == 0) 
+        {
+        	//Declare an integer randomIndex, set it's value to a random number between 0 and the count of items in our List gridPositions.
+        	randomIndexX = Random.Range (0, insideC);
+        	randomIndexY = Random.Range (0, insideR);
+        }
+
+        else
+        {
+        	//Declare an integer randomIndex, set it's value to a random number between 0 and the count of items in our List gridPositions.
+        	randomIndexX = Random.Range (0, outsideC);
+        	randomIndexY = Random.Range (0, outsideR);
+        }
         
         //Declare a variable of type Vector3 called randomPosition, set it's value to the entry at randomIndex from our List gridPositions.
-        Vector3 randomPosition = gridPositions[randomIndex];
+        Vector3 randomPosition = new Vector3(randomIndexX, randomIndexY, 0f);
         
         //Remove the entry at randomIndex from the list so that it can't be re-used.
-        gridPositions.RemoveAt (randomIndex);
+        objectPositions.Add (randomPosition);
         
         //Return the randomly selected Vector3 position.
         return randomPosition;
@@ -213,6 +227,7 @@ public class BoardManager : MonoBehaviour
     //LayoutObjectAtRandom accepts an array of game objects to choose from along with a minimum and maximum range for the number of objects to create.
     void LayoutObjectAtRandom (GameObject[] tileArray, int minimum, int maximum)
     {
+    	objectPositions = new List<Vector3>();
         //Choose a random number of objects to instantiate within the minimum and maximum limits
         int objectCount = Random.Range (minimum, maximum+1);
         
@@ -238,16 +253,24 @@ public class BoardManager : MonoBehaviour
         Destroy(board);
 
         //Creates the outer walls and floor.
-        if (GameManager.level == 0)
+        if (level == 0)
         {
             BoardSetup(insideC, insideR, level);
-            InitialiseList(insideC, insideR);
+            //InitialiseList(insideC, insideR);
         }
 
-        else //if (GameManager.level == 1)
+        else //if (level == 1)
         {
+        	//Determine number of enemies based on current level number, based on a logarithmic progression
+        	int enemyCount = 3;
+        
+        	//Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
+        	LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);
+
             BoardSetup(outsideC, outsideR, level);
-            InitialiseList(outsideC, outsideR);
+            //InitialiseList(outsideC, outsideR);
+
+
         }
 
         //Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
@@ -256,11 +279,7 @@ public class BoardManager : MonoBehaviour
         //Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
         //LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
 
-        //Determine number of enemies based on current level number, based on a logarithmic progression
-        //int enemyCount = (int)Mathf.Log(level, 2f);
-        
-        //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
-        //LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);
+
         
         //Instantiate the exit tile in the upper right hand corner of our game board
         //Instantiate (exit, new Vector3 (columns - 1, rows - 1, 0f), Quaternion.identity);
