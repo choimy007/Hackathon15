@@ -22,8 +22,8 @@ public class BoardManager : MonoBehaviour
     }
     
     
-    public int columns = 8;                                         //Number of columns in our game board.
-    public int rows = 8;                                            //Number of rows in our game board.
+    public int columns = 15;                                         //Number of columns in our game board.
+    public int rows = 15;                                            //Number of rows in our game board.
     public Count wallCount = new Count (5, 9);                      //Lower and upper limit for our random number of walls per level.
     public Count foodCount = new Count (1, 5);                      //Lower and upper limit for our random number of food items per level.
     //public GameObject exit;                                         //Prefab to spawn for exit.
@@ -102,6 +102,7 @@ public class BoardManager : MonoBehaviour
         else
             return floorTiles[Random.Range(0, floorTiles.Length)];
     }
+
     //Sets up the outer walls and floor (background) of the game board.
     void BoardSetup ()
     {
@@ -115,12 +116,17 @@ public class BoardManager : MonoBehaviour
             for(int y = -1; y < rows + 1; y++)
             {
                 //Choose a random tile from our array of floor tile prefabs and prepare to instantiate it.
-                GameObject toInstantiate = arrayToBoard(field, x, y);
+                GameObject toInstantiate;
                 
                 //Check if we current position is at board edge, if so choose a random outer wall prefab from our array of outer wall tiles.
                 if(x == -1 || x == columns || y == -1 || y == rows)
                     toInstantiate = outerWallTiles [Random.Range (0, outerWallTiles.Length)];
                 
+                else
+                {
+                    toInstantiate = arrayToBoard(field, x, y);
+                }
+
                 //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
                 GameObject instance =
                     Instantiate (toInstantiate, new Vector3 (x, y, 0f), Quaternion.identity) as GameObject;
@@ -183,13 +189,13 @@ public class BoardManager : MonoBehaviour
         //LayoutObjectAtRandom (wallTiles, wallCount.minimum, wallCount.maximum);
         
         //Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
-        LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
+        //LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
         
         //Determine number of enemies based on current level number, based on a logarithmic progression
         int enemyCount = (int)Mathf.Log(level, 2f);
         
         //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
-        LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);
+        //LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);
         
         //Instantiate the exit tile in the upper right hand corner of our game board
         //Instantiate (exit, new Vector3 (columns - 1, rows - 1, 0f), Quaternion.identity);
