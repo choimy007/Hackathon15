@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
     [HideInInspector] public bool playersTurn = true;       //Boolean to check if it's players turn, hidden in inspector but public.
     
-    
+    public float moveTime = 0.1f; 
     private Text levelText;                                 //Text to display current level number.
     public GameObject CookCanvas;
     public GameObject CookButton;
@@ -164,11 +164,14 @@ public class GameManager : MonoBehaviour
         //Loop through List of Enemy objects.
         for (int i = 0; i < enemies.Count; i++)
         {
-            //Call the MoveEnemy function of Enemy at index i in the enemies List.
-            enemies[i].MoveEnemy ();
-            
+            if (enemies[i].hp > 0)
+            {
+                //Call the MoveEnemy function of Enemy at index i in the enemies List.
+                enemies[i].MoveEnemy ();
+            }
+
             //Wait for Enemy's moveTime before moving next Enemy, 
-            yield return new WaitForSeconds(enemies[i].moveTime);
+            yield return new WaitForSeconds(moveTime);
         }
         //Once Enemies are done moving, set playersTurn to true so player can move.
         playersTurn = true;
