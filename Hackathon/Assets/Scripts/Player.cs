@@ -158,8 +158,11 @@ public class Player : MovingObject
         //Check if the tag of the trigger collided with is the house.
         else if(other.tag == "House")
         {
-            // //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
-            // Invoke ("Restart", restartLevelDelay);
+            GameManager.level = 0;
+
+            transform.position = new Vector2(0f, 0f);
+            //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
+            Application.LoadLevel("Inside");
             
             // //Disable the player object since level is over.
             // enabled = false;
@@ -167,8 +170,11 @@ public class Player : MovingObject
 
         else if(other.tag == "Exit")
         {
-            // //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
-            // Invoke ("Restart", restartLevelDelay);
+            GameManager.level = 1;
+
+            transform.position = new Vector2(5, 5);
+            //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
+            Application.LoadLevel("Outside");
             
             // //Disable the player object since level is over.
             // enabled = false;

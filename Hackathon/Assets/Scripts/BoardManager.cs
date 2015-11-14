@@ -40,6 +40,7 @@ public class BoardManager : MonoBehaviour
     public GameObject window;
     public GameObject insideF;
     public GameObject insideW;
+    //public GameObject player;
     
     private Transform boardHolder;                                  //A variable to store a reference to the transform of our Board object.
     private List <Vector3> gridPositions = new List <Vector3> ();   //A list of possible locations to place tiles.
@@ -240,12 +241,11 @@ public class BoardManager : MonoBehaviour
             InitialiseList(insideC, insideR);
         }
 
-        else if (GameManager.level == 1)
+        else //if (GameManager.level == 1)
         {
             BoardSetup(outsideC, outsideR, level);
             InitialiseList(outsideC, outsideR);
         }
-      
 
         //Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
         //LayoutObjectAtRandom (wallTiles, wallCount.minimum, wallCount.maximum);
