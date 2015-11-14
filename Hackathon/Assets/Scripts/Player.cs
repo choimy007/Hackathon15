@@ -129,15 +129,15 @@ public class Player : MovingObject
             // enabled = false;
         }
         
-        // //Check if the tag of the trigger collided with is Food.
-        // else if(other.tag == "Food")
-        // {
-        //     //Add pointsPerFood to the players current food total.
-        //     food += pointsPerFood;
+        //Check if the tag of the trigger collided with is a drop.
+        else if(other.tag == "Drop")
+        {
+            // //Add pointsPerFood to the players current food total.
+            // food += pointsPerFood;
             
-        //     //Disable the food object the player collided with.
-        //     other.gameObject.SetActive (false);
-        // }
+            //Disable the food object the player collided with.
+            other.gameObject.SetActive (false);
+        }
         
         // //Check if the tag of the trigger collided with is Soda.
         // else if(other.tag == "Soda")

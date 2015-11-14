@@ -6,6 +6,8 @@ public class Enemy : MovingObject
 {
     public int playerDamage;                            //The amount of health points to subtract from the player when attacking.
     public int hp = 5;                                  //Used to store enemy health points.
+
+    public GameObject[] dropTiles;                      //Array of possible enemy drop prefabs.
     
     
     private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
@@ -104,14 +106,18 @@ public class Enemy : MovingObject
         //Check if health point total is less than or equal to zero.
         if (hp <= 0) 
         {
+            //Set the trigger for the enemy animator to transition to the enemyKill animation.
+            //animator.SetTrigger ("enemyKill");
+
+            //"Kill" the enemy.
             gameObject.SetActive (false);
+
+            //Choose which prefab for the enemy to drop
+            //May want to create a separate function for this.
+            GameObject drop = dropTiles[0];
+
+            //Instantiate the dropped item in the location where the enemy was killed.
+            Instantiate (drop, transform.position, Quaternion.identity);
         }
-    }
-
-
-    //CheckIfEnemyDead checks if the enemyis out of health points and if so, removes the enemy.
-    private void CheckIfEnemyDead ()
-    {
-        
     }
 }
