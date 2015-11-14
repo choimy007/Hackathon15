@@ -108,6 +108,7 @@ public abstract class MovingObject : MonoBehaviour
         
         //If canMove is false and hitComponent is not equal to null, meaning MovingObject is blocked and has hit something it can interact with.
         if(!canMove && hitComponent != null)
+            Debug.Log("AttemptMove MovingObject called: second if statement");
             
             //Call the OnCantMove function and pass it hitComponent as a parameter.
             OnCantMove (hitComponent);

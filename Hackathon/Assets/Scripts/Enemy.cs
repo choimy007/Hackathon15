@@ -4,8 +4,8 @@ using System.Collections;
 //Enemy inherits from MovingObject, our base class for objects that can move, Player also inherits from this.
 public class Enemy : MovingObject
 {
-    public int playerDamage;                            //The amount of health points to subtract from the player when attacking.
-    public int hp = 5;                                  //Used to store enemy health points.
+    public int playerDamage = 4;                            //The amount of health points to subtract from the player when attacking.
+    public int hp = 1;                                  //Used to store enemy health points.
 
     public GameObject[] dropTiles;                      //Array of possible enemy drop prefabs.
     
@@ -93,15 +93,16 @@ public class Enemy : MovingObject
     }
 
 
-    //DamageEnemy is called when the player attacks an enemy.
-    //It takes a parameter loss which specifies how many points to lose.
-    public void DamageEnemy (int enemyDamage)
+    // DamageEnemy is called when the player attacks an enemy.
+    // It takes a parameter loss which specifies how many points to lose.
+    public void DamageEnemy (int loss)
     {
+        Debug.Log("DamageEnemy called");
         //Set the trigger for the enemy animator to transition to the enemyHit animation.
         //animator.SetTrigger ("enemyHit");
         
         //Subtract lost health points from the enemy's total.
-        hp -= enemyDamage;
+        hp -= loss;
         
         //Check if health point total is less than or equal to zero.
         if (hp <= 0) 
@@ -109,15 +110,15 @@ public class Enemy : MovingObject
             //Set the trigger for the enemy animator to transition to the enemyKill animation.
             //animator.SetTrigger ("enemyKill");
 
-            //"Kill" the enemy.
-            gameObject.SetActive (false);
-
             //Choose which prefab for the enemy to drop
             //May want to create a separate function for this.
             GameObject drop = dropTiles[0];
 
             //Instantiate the dropped item in the location where the enemy was killed.
             Instantiate (drop, transform.position, Quaternion.identity);
+
+            //"Kill" the enemy.
+            gameObject.SetActive (false);
         }
     }
 }

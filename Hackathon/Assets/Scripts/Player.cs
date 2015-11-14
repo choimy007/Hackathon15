@@ -5,7 +5,7 @@ using System.Collections.Generic; //Allows us to use dictionaries
 //Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
 public class Player : MovingObject
 {
-    public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
+    public float restartLevelDelay = .1f;        //Delay time in seconds to restart level.
     public int pointsPerFood = 10;              //Number of points to add to player food points when picking up a food object.
     public int pointsPerSoda = 20;              //Number of points to add to player food points when picking up a soda object.
     public int enemyDamage = 1;                 //How much damage a player does to an enemy when attacking it.
@@ -91,12 +91,20 @@ public class Player : MovingObject
             animator.SetTrigger("moveBack");
         }
 
+        //Check if we have a non-zero value for horizontal AND vertical,
+        //Set both to zero to prevent diagonal movement.
+        if(horizontal !=0 && vertical != 0)
+        {
+            horizontal = 0;
+            vertical = 0;
+        }
+
         //Check if we have a non-zero value for horizontal or vertical
         if(horizontal != 0 || vertical != 0)
         {
             //Call AttemptMove passing in the generic parameter Wall, since that is what Player may interact with if they encounter one (by attacking it)
             //Pass in horizontal and vertical as parameters to specify the direction to move Player in.
-            AttemptMove<Wall> (horizontal, vertical);
+            AttemptMove<Enemy> (horizontal, vertical);
         }
     }
     
@@ -104,6 +112,8 @@ public class Player : MovingObject
     //AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
     protected override void AttemptMove <T> (int xDir, int yDir)
     {
+        Debug.Log("AttemptMove Player called");
+
         //Regenerate health every other step
         if (!skipHealth) {
             hp++;
@@ -138,6 +148,7 @@ public class Player : MovingObject
     //It takes a generic parameter T which in the case of Player is an Enemy which the player can attack and kill.
     protected override void OnCantMove <T> (T component)
     {
+        Debug.Log("OnCantMove Player called");
         //Set hitEnemy to equal the component passed in as a parameter.
         Enemy hitEnemy = component as Enemy;
         
