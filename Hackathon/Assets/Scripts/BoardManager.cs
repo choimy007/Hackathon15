@@ -26,9 +26,9 @@ public class BoardManager : MonoBehaviour
     public int rows = 8;                                            //Number of rows in our game board.
     public Count wallCount = new Count (5, 9);                      //Lower and upper limit for our random number of walls per level.
     public Count foodCount = new Count (1, 5);                      //Lower and upper limit for our random number of food items per level.
-    public GameObject exit;                                         //Prefab to spawn for exit.
+    //public GameObject exit;                                         //Prefab to spawn for exit.
     public GameObject[] floorTiles;                                 //Array of floor prefabs.
-    public GameObject[] wallTiles;                                  //Array of wall prefabs.
+    //public GameObject[] wallTiles;                                  //Array of wall prefabs.
     public GameObject[] foodTiles;                                  //Array of food prefabs.
     public GameObject[] enemyTiles;                                 //Array of enemy prefabs.
     public GameObject[] outerWallTiles;                             //Array of outer tile prefabs.
@@ -86,12 +86,12 @@ public class BoardManager : MonoBehaviour
         // z is the number of rows = height
         char tileStr = mazeArray[x, y];
 
-        // If there is an X, return a Wall
-        if (tileStr == 'X')
-            return wallTiles[Random.Range(0, wallTiles.Length)];
+        //// If there is an X, return a Wall
+        //if (tileStr == 'X')
+        //    return wallTiles[Random.Range(0, wallTiles.Length)];
 
         // If there is an O, return a Floor
-        else if (tileStr == 'O')
+        if (tileStr == 'O')
             return floorTiles[Random.Range(0, floorTiles.Length)];
 
         // If there is an H, return the House
@@ -180,7 +180,7 @@ public class BoardManager : MonoBehaviour
         InitialiseList ();
         
         //Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
-        LayoutObjectAtRandom (wallTiles, wallCount.minimum, wallCount.maximum);
+        //LayoutObjectAtRandom (wallTiles, wallCount.minimum, wallCount.maximum);
         
         //Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
         LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
@@ -192,6 +192,6 @@ public class BoardManager : MonoBehaviour
         LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);
         
         //Instantiate the exit tile in the upper right hand corner of our game board
-        Instantiate (exit, new Vector3 (columns - 1, rows - 1, 0f), Quaternion.identity);
+        //Instantiate (exit, new Vector3 (columns - 1, rows - 1, 0f), Quaternion.identity);
     }
 }
